@@ -100,41 +100,42 @@ function Weapon.Equip(item, data)
 		-- 	anim = nil
 		-- end
 
-        if anim == anims[`GROUP_PISTOL`] or data.type == "side" then
+	if anim == anims[`GROUP_PISTOL`] or data.type == "side" then
             if GetConvar('malisling:enable_sling', 'false') == 'true' then
-
-                local watingForHolster = nil
-
-                lib.showTextUI(']=] .. MBT.Labels["Holster_Help"] .. [=[', {icon = 'hand'})
-
-                lib.requestAnimDict("reaction@intimidation@cop@unarmed")
-
-                while not IsEntityPlayingAnim(playerPed, "reaction@intimidation@cop@unarmed", "intro", 3) do
-                    TaskPlayAnim(playerPed, "reaction@intimidation@cop@unarmed", "intro", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
-                    Citizen.Wait(10)
-                end
-
-                RegisterCommand("confirmHolster", function()
-                    watingForHolster = true
-                end, false)
-
-                RegisterCommand("cancelHolster", function()
-                    watingForHolster = false
-                end, false)
-
-                while watingForHolster == nil do
-                    Citizen.Wait(100)
-                end
-
-                lib.hideTextUI()
-
-                ClearPedTasks(playerPed)
-
-                RegisterCommand("confirmHolster", function() end, false)
-
-                RegisterCommand("cancelHolster", function() end, false)
-
-                if not watingForHolster then return end
+		if client.hasGroup(shared.police) then
+			local watingForHolster = nil
+	
+	                lib.showTextUI(']=] .. MBT.Labels["Holster_Help"] .. [=[', {icon = 'hand'})
+	
+	                lib.requestAnimDict("reaction@intimidation@cop@unarmed")
+	
+	                while not IsEntityPlayingAnim(playerPed, "reaction@intimidation@cop@unarmed", "intro", 3) do
+	                    TaskPlayAnim(playerPed, "reaction@intimidation@cop@unarmed", "intro", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
+	                    Citizen.Wait(10)
+	                end
+	
+	                RegisterCommand("confirmHolster", function()
+	                    watingForHolster = true
+	                end, false)
+	
+	                RegisterCommand("cancelHolster", function()
+	                    watingForHolster = false
+	                end, false)
+	
+	                while watingForHolster == nil do
+	                    Citizen.Wait(100)
+	                end
+	
+	                lib.hideTextUI()
+	
+	                ClearPedTasks(playerPed)
+	
+	                RegisterCommand("confirmHolster", function() end, false)
+	
+	                RegisterCommand("cancelHolster", function() end, false)
+	
+			if not watingForHolster then return end
+		end
             end
         end
 
